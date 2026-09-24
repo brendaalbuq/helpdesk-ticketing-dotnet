@@ -1,0 +1,10 @@
+bin/
+obj/
+TestResults/
+coverage/
+*.user
+*.suo
+*.rsuser
+.vs/
+src/Helpdesk.ConsoleApp/bin/**/Data/
+*.zip

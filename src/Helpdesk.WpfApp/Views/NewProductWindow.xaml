@@ -1,0 +1,92 @@
+<Window x:Class="Helpdesk.WpfApp.Views.NewProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Novo Produto"
+        Height="430"
+        Width="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Novo Produto"
+                       FontSize="22"
+                       FontWeight="SemiBold" />
+            <TextBlock Text="Associar produto a um cliente"
+                       Foreground="#64748B"
+                       Margin="0,4,0,18" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Cliente" VerticalAlignment="Center" Margin="0,0,12,10" />
+            <ComboBox x:Name="ClientBox"
+                      Grid.Column="1"
+                      DisplayMemberPath="FullName"
+                      Margin="0,0,0,10" />
+
+            <TextBlock Grid.Row="1" Text="Produto" VerticalAlignment="Center" Margin="0,0,12,10" />
+            <TextBox x:Name="NameBox"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Margin="0,0,0,10" />
+
+            <TextBlock Grid.Row="2" Text="Marca" VerticalAlignment="Center" Margin="0,0,12,10" />
+            <TextBox x:Name="BrandBox"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     Margin="0,0,0,10" />
+
+            <TextBlock Grid.Row="3" Text="Modelo" VerticalAlignment="Center" Margin="0,0,12,10" />
+            <TextBox x:Name="ModelBox"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     Margin="0,0,0,10" />
+
+            <TextBlock Grid.Row="4" Text="Numero de serie" VerticalAlignment="Center" Margin="0,0,12,10" />
+            <TextBox x:Name="SerialNumberBox"
+                     Grid.Row="4"
+                     Grid.Column="1"
+                     Margin="0,0,0,10" />
+
+            <TextBlock Grid.Row="5" Text="Garantia (meses)" VerticalAlignment="Center" Margin="0,0,12,10" />
+            <TextBox x:Name="WarrantyMonthsBox"
+                     Grid.Row="5"
+                     Grid.Column="1"
+                     Text="24"
+                     Margin="0,0,0,10" />
+        </Grid>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,18,0,0">
+            <Button Content="Cancelar"
+                    Width="100"
+                    Margin="0,0,8,0"
+                    Click="CancelButton_Click" />
+            <Button Content="Criar Produto"
+                    Width="120"
+                    Background="#2563EB"
+                    Foreground="White"
+                    Click="CreateButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

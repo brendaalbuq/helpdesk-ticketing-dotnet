@@ -1,0 +1,262 @@
+<Window x:Class="Helpdesk.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Helpdesk Management System"
+        Height="720"
+        Width="1180"
+        MinHeight="620"
+        MinWidth="980"
+        WindowStartupLocation="CenterScreen"
+        Background="#F8FAFC">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="0,0,8,8" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="MetricBlock" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="14" />
+            <Setter Property="Margin" Value="0,0,12,0" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="Helpdesk Management System"
+                           FontSize="26"
+                           FontWeight="SemiBold"
+                           Foreground="#0F172A" />
+                <TextBlock Text="Gestao de assistencias tecnicas"
+                           Foreground="#64748B"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Right"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Content="Atualizar"
+                        Command="{Binding RefreshCommand}" />
+                <Button Content="Novo Cliente"
+                        Click="NewClientButton_Click" />
+                <Button Content="Novo Produto"
+                        Click="NewProductButton_Click" />
+                <Button Content="Novo Ticket"
+                        Background="#2563EB"
+                        Foreground="White"
+                        Click="NewTicketButton_Click" />
+            </StackPanel>
+        </DockPanel>
+
+        <UniformGrid Grid.Row="1"
+                     Columns="5"
+                     Margin="0,20,0,18">
+            <Border Style="{StaticResource MetricBlock}">
+                <StackPanel>
+                    <TextBlock Text="Clientes" Foreground="#64748B" />
+                    <TextBlock Text="{Binding ClientCount}" FontSize="28" FontWeight="SemiBold" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricBlock}">
+                <StackPanel>
+                    <TextBlock Text="Produtos" Foreground="#64748B" />
+                    <TextBlock Text="{Binding ProductCount}" FontSize="28" FontWeight="SemiBold" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricBlock}">
+                <StackPanel>
+                    <TextBlock Text="Operadores" Foreground="#64748B" />
+                    <TextBlock Text="{Binding OperatorCount}" FontSize="28" FontWeight="SemiBold" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricBlock}">
+                <StackPanel>
+                    <TextBlock Text="Tickets" Foreground="#64748B" />
+                    <TextBlock Text="{Binding TicketCount}" FontSize="28" FontWeight="SemiBold" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricBlock}" Margin="0">
+                <StackPanel>
+                    <TextBlock Text="Abertos" Foreground="#64748B" />
+                    <TextBlock Text="{Binding OpenTicketCount}" FontSize="28" FontWeight="SemiBold" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="18" />
+                <ColumnDefinition Width="1.1*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Background="White"
+                    BorderBrush="#CBD5E1"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="12">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Tickets"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10" />
+
+                    <DataGrid Grid.Row="1"
+                              ItemsSource="{Binding Tickets}"
+                              SelectedItem="{Binding SelectedTicket, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              SelectionMode="Single"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Numero" Binding="{Binding TicketNumber}" Width="150" />
+                            <DataGridTextColumn Header="Assunto" Binding="{Binding Subject}" Width="*" />
+                            <DataGridTextColumn Header="Cliente" Binding="{Binding Client.FullName}" Width="150" />
+                            <DataGridTextColumn Header="Prioridade" Binding="{Binding Priority}" Width="100" />
+                            <DataGridTextColumn Header="Estado" Binding="{Binding Status}" Width="120" />
+                            <DataGridTextColumn Header="Limite" Binding="{Binding LimitDate, StringFormat=dd/MM/yyyy HH:mm}" Width="140" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2"
+                    Background="White"
+                    BorderBrush="#CBD5E1"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Detalhes"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,12" />
+
+                        <TextBlock Text="{Binding SelectedTicket.TicketNumber, TargetNullValue=Selecione um ticket}"
+                                   FontWeight="SemiBold"
+                                   FontSize="16" />
+                        <TextBlock Text="{Binding SelectedTicket.Subject}"
+                                   Foreground="#334155"
+                                   Margin="0,4,0,12" />
+
+                        <TextBlock Text="Cliente" Foreground="#64748B" />
+                        <TextBlock Text="{Binding SelectedTicket.Client.FullName}" Margin="0,0,0,8" />
+
+                        <TextBlock Text="Produto" Foreground="#64748B" />
+                        <TextBlock Margin="0,0,0,8">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="SelectedTicket.Product.Brand" />
+                                    <Binding Path="SelectedTicket.Product.Model" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                        <TextBlock Text="Operador" Foreground="#64748B" />
+                        <TextBlock Text="{Binding SelectedTicket.AssignedOperator.FullName, TargetNullValue=Sem operador atribuido}"
+                                   Margin="0,0,0,8" />
+
+                        <TextBlock Text="Descricao" Foreground="#64748B" />
+                        <TextBlock Text="{Binding SelectedTicket.Description}"
+                                   Margin="0,0,0,14" />
+
+                        <TextBlock Text="Acoes"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Margin="0,8,0,10" />
+
+                        <WrapPanel>
+                            <Button Content="Atribuir"
+                                    Command="{Binding AssignTicketCommand}" />
+                            <Button Content="Aguardar Cliente"
+                                    Command="{Binding WaitClientCommand}" />
+                            <Button Content="Fechar"
+                                    Command="{Binding CloseTicketCommand}" />
+                        </WrapPanel>
+
+                        <TextBlock Text="Resolucao" Foreground="#64748B" Margin="0,8,0,4" />
+                        <TextBox Text="{Binding ResolutionText, UpdateSourceTrigger=PropertyChanged}"
+                                 AcceptsReturn="True"
+                                 Height="76"
+                                 VerticalScrollBarVisibility="Auto"
+                                 TextWrapping="Wrap" />
+                        <Button Content="Resolver"
+                                Command="{Binding ResolveTicketCommand}"
+                                HorizontalAlignment="Left"
+                                Margin="0,8,0,12" />
+
+                        <TextBlock Text="Avaliacao" FontSize="16" FontWeight="SemiBold" Margin="0,4,0,8" />
+                        <DockPanel Margin="0,0,0,8">
+                            <TextBlock DockPanel.Dock="Left"
+                                       Text="Nota"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0" />
+                            <ComboBox x:Name="ScoreBox"
+                                      Width="70"
+                                      SelectedItem="{Binding EvaluationScore, Mode=TwoWay}" />
+                            <CheckBox Content="Resolvido"
+                                      IsChecked="{Binding EvaluationSolved}"
+                                      Margin="16,0,0,0"
+                                      VerticalAlignment="Center" />
+                        </DockPanel>
+
+                        <TextBox Text="{Binding EvaluationComment, UpdateSourceTrigger=PropertyChanged}"
+                                 AcceptsReturn="True"
+                                 Height="60"
+                                 VerticalScrollBarVisibility="Auto"
+                                 TextWrapping="Wrap" />
+                        <Button Content="Avaliar"
+                                Command="{Binding EvaluateTicketCommand}"
+                                HorizontalAlignment="Left"
+                                Margin="0,8,0,0" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="3"
+                Background="#E0F2FE"
+                BorderBrush="#7DD3FC"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="10"
+                Margin="0,14,0,0">
+            <TextBlock Text="{Binding StatusMessage}" Foreground="#075985" />
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,40 @@
+name: dotnet
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore HelpdeskPOO.sln
+
+      - name: Build
+        run: dotnet build HelpdeskPOO.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test HelpdeskPOO.sln --configuration Release --no-build --collect:"XPlat Code Coverage"
+
+      - name: Publish demonstrator applications
+        run: |
+          dotnet publish src/Helpdesk.ConsoleApp/Helpdesk.ConsoleApp.csproj --configuration Release --no-build --output artifacts/console
+          dotnet publish src/Helpdesk.WpfApp/Helpdesk.WpfApp.csproj --configuration Release --no-build --output artifacts/wpf
+
+      - name: Upload demonstrator applications
+        uses: actions/upload-artifact@v4
+        with:
+          name: helpdesk-applications
+          path: artifacts/
